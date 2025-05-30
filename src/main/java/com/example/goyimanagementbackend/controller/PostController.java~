@@ -1,0 +1,41 @@
+package com.example.goyimanagementbackend.controller;
+
+import com.example.goyimanagementbackend.dto.post.PostResponseDTO;
+import com.example.goyimanagementbackend.service.profile.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/posts")
+@CrossOrigin("*")
+public class PostController {
+
+    @Autowired
+    private PostService postService;
+
+    @GetMapping
+    public ResponseEntity<List<PostResponseDTO>> getAllPosts() {
+        try {
+            List<PostResponseDTO> posts = postService.getAllPosts();
+            return ResponseEntity.ok(posts);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(403).body(null); // Forbidden nếu không có quyền
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostResponseDTO> getPostDetails(@PathVariable Long id) {
+        try {
+            PostResponseDTO post = postService.getPostDetails(id);
+            return ResponseEntity.ok(post);
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("Không tìm thấy bài viết")) {
+                return ResponseEntity.status(404).body(null); // Not Found
+            }
+            return ResponseEntity.status(403).body(null); // Forbidden nếu không có quyền
+        }
+    }
+}

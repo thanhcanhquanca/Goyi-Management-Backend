@@ -1,0 +1,22 @@
+package com.example.goyimanagementbackend.dto.post;
+
+import lombok.Data;
+import java.time.LocalDateTime;
+import java.util.List;
+
+// DTO để trả về thông tin chi tiết của bài viết
+@Data
+public class PostResponseDTO {
+    private Long id; // Mã định danh duy nhất của bài viết
+    private String title; // Tiêu đề của bài viết
+    private String content; // Nội dung của bài viết
+    private String status; // Trạng thái của bài viết (PUBLIC, PRIVATE, DELETED)
+    private LocalDateTime createdAt; // Thời điểm bài viết được tạo
+    private LocalDateTime updatedAt; // Thời điểm bài viết được cập nhật lần cuối
+    private UserPostDTO user; // Người dùng đã đăng bài viết
+    private List<PostImageDTO> images; // Danh sách hình ảnh đính kèm trong bài viết
+    private List<PostCommentDTO> comments; // Danh sách bình luận cha (với bình luận con được lồng bên trong)
+    private List<PostReactionDTO> reactions; // Danh sách phản ứng với bài viết
+    private int viewCount; // Số lượt xem của bài viết
+    private List<PostShareDTO> shares; // Danh sách các nền tảng nơi bài viết được chia sẻ
+}
